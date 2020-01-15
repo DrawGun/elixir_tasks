@@ -4,11 +4,11 @@ defmodule ElixirTasks.GithubApiExample do
 
   def user_programming_languages do
     IO.gets("Type username\n")
-      |> String.trim
-      |> check_username_and_set_default
-      |> get_request
-      |> Enum.join(", ")
-      |> IO.puts
+    |> String.trim()
+    |> check_username_and_set_default
+    |> get_request
+    |> Enum.join(", ")
+    |> IO.puts()
   end
 
   defp check_username_and_set_default(username) do
@@ -19,16 +19,20 @@ defmodule ElixirTasks.GithubApiExample do
   end
 
   defp get_request(username) do
-    IO.puts " HTTPoison.get: #{url_for_repos(username)}"
+    IO.puts(" HTTPoison.get: #{url_for_repos(username)}")
 
-    result = url_for_repos(username)
-      |> HTTPoison.get
+    result =
+      url_for_repos(username)
+      |> HTTPoison.get()
       |> parse_response
 
     case result do
-        {:ok, response} -> response
-          |> collect_programming_languages
-        :error -> ["query error"]
+      {:ok, response} ->
+        response
+        |> collect_programming_languages
+
+      :error ->
+        ["query error"]
     end
   end
 
@@ -37,7 +41,7 @@ defmodule ElixirTasks.GithubApiExample do
   end
 
   defp parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
-    body |> JSON.decode! |> success_response
+    body |> JSON.decode!() |> success_response
   end
 
   defp parse_response(_) do
@@ -50,9 +54,8 @@ defmodule ElixirTasks.GithubApiExample do
 
   def collect_programming_languages(response) do
     response
-      |> Enum.map(&(&1["language"]))
-      |> Enum.uniq
-      |> Enum.filter(&(&1 != nil))
+    |> Enum.map(& &1["language"])
+    |> Enum.uniq()
+    |> Enum.filter(&(&1 != nil))
   end
 end
-

@@ -7,14 +7,14 @@ defmodule ElixirTasks.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {ElixirTasks, []},
       extra_applications: [:logger]
     ]
   end
@@ -24,6 +24,12 @@ defmodule ElixirTasks.MixProject do
     [
       {:httpoison, "~> 1.6.2"},
       {:json, "~> 1.3.0"}
+    ]
+  end
+
+  defp aliases do
+    [
+      github: ["run priv/github.exs"]
     ]
   end
 end
